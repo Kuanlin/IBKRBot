@@ -3,7 +3,8 @@ from ModelBase import ModelBase
 from ConfigProvider import *
 
 use_model = modelconfig["use_model"]
-model = importlib.import_module(f"botmodel.{use_model}")
+model_name = modelconfig["name"]
+model = var(importlib.import_module(f"botmodel.{use_model}")).get(model_name)
 
 class BotBase():
     
