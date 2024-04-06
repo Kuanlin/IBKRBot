@@ -16,7 +16,7 @@ class ModelBase():
         assert type(requests) == list
         for r in requests:
             assert type(r) == dict
-            reqmsgr.send_message(routing_key="rest.request", r)
+            reqmsgr.send_message(routing_key="rest.request", message = r)
             
     async def entry():
         pass
