@@ -11,7 +11,7 @@
 
 import argparse
 import asyncio, asyncpg
-from ConfigProvider import auths
+from ..ConfigProvider import auths
 from pprint import pprint as pp
 
 async def tellbot_run():
