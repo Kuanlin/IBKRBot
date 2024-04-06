@@ -52,7 +52,9 @@ async def main():
     for signame in ('SIGINT', 'SIGTERM'):
         loop.add_signal_handler(getattr(signal, signame),
              lambda: asyncio.ensure_future(ask_exit(signame)))
-    await asyncio.gather(run())
+    bot = BotBase(model)
+    await bot.entry()
+    await asyncio.gather(run(), bot.mainloop())
 
 if __name__=="__main__":
     asyncio.run(main())
