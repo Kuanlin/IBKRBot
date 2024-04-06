@@ -1,5 +1,9 @@
-import asyncio, signal
+import asyncio, signal, json, importlib
 from ModelBase import ModelBase
+from ConfigProvider import *
+
+use_model = modelconfig["use_model"]
+model = importlib.import_module(f"botmodel.{use_model}")
 
 class BotBase():
     

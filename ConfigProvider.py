@@ -8,4 +8,4 @@ _f3 = open("./config/model.json", "r")
 _j3 = json.load(_f3)
 auths = _j
 ibkr = _j2
-model = _j3
+modelconfig = _j3
