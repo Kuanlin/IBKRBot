@@ -3,10 +3,8 @@ from ModelBase import ModelBase
 
 class MyModel(ModelBase):
 
-    def run(self):
-        pass
-    
-    def onResponseMessage(self):
+    async def entry():
         pass
 
-
+    async def mainloop():
+        pass

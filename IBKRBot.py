@@ -4,9 +4,12 @@ from ModelBase import ModelBase
 class BotBase():
     
     def __init__(self, model:ModelBase):
-        pass
+        self.model = model
 
-    async def run(self):
+    async def entry(self):
+        await self.model.entry()
+
+    async def mainloop(self):
         while True:
             try:
                 while True:
@@ -35,7 +38,6 @@ async def run():
     while(True):
         print(".", end="", flush=True)
         await asyncio.sleep(1)
-
 
 async def main():
     loop = asyncio.get_event_loop()
