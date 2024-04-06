@@ -16,9 +16,9 @@ class RESTSession:
     def __init__(self):
         self.loop = asyncio.get_event_loop()
         self.reqqueue = asyncio.PriorityQueue()
-        self.reqmsgr = JSONMessenger("rest.request")
-        self.respmsgr = JSONMessenger("rest.response")
-        self.sysmsgr = JSONMessenger("sys.message")
+        self.reqmsgr = JSONMessenger(name = "reqmsgr.restclient", exchange_name = "rest.exchange", routing_key = "rest.request")
+        self.respmsgr = JSONMessenger(name = "respmsgr.restclient", exchange_name = "rest.exchange", routing_key = "rest.response")
+        self.sysmsgr = JSONMessenger(name = "sysmsgr.restclient", exchange_name = "sys.exchange", routing_key = "sys.message")
 
     async def start(self):
         self.reqmsgr.on_message = self._onRestRequest
