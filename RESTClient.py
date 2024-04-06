@@ -1,20 +1,106 @@
 import asyncio, aiohttp, json
-from Messenger import Messenger
+from MessageBroker import JSONMessenger
+from enum import Enum
+from RESTRequest import *
+
+MAX_RETRIED = 3
+
+class RESTQueuePriority(Enum):
+    DEFAULT = 50
+    MIDHIGH = 30 
+    HIGH = 20
+
 
 class RESTSession:
 
-
     def __init__(self):
         self.loop = asyncio.get_event_loop()
-        self.reqmsg = Messenger("rest.request")
-        self.respmsg = Messenger("rest.response")
-        self.sysmsg = Messenger("sys.messenge")
+        self.reqqueue = asyncio.PriorityQueue()
+        self.reqmsgr = JSONMessenger("rest.request")
+        self.respmsgr = JSONMessenger("rest.response")
+        self.sysmsgr = JSONMessenger("sys.message")
+
+    async def start(self):
+        self.reqmsgr.on_message = self._onRestRequest
+        self.respmsgr.on_message = self._onRestResonse
+        self.sysmsgr.on_message = self._onSysMessage
+        await self._restClientSession()
 
 
-    
-    def onResponse(self):
+    async def _onRestRequest(self, message_body):
+        await self.reqqueue.put( (RESTQueuePriority, message_body) )
+
+
+    async def _onRestResponse(self):
+        #if yes no to push
+        pass
+
+
+    async def _onSysMessage(self):
+        pass
+
+    async def onResponse(self):
         pass
     
 
-    def restClientSession(self) -> None:
-        pass
+    async def _restClientSession(self) -> None:
+        headers = {"User-Agent":"JAGMAGMAG/0.0.1 GGCG"}
+        while(True):
+            try:
+                await self.onClientInit()
+                while(True):
+                    await asyncio.sleep(0)
+                    async with aiohttp.ClientSession(
+                        IBKRClientPortalURI,
+                        connector=aiohttp.TCPConnector(verify_ssl=False)
+                    ) as session:
+                        
+                        priority, request = await self.reqqueue.get()
+
+                        try:
+                            async with session.request(
+                                method = request["method"],
+                                url = request["url"],
+                                headers = headers | {} if not request.get("headers") else request.get("headers"),
+                                params = request["params"],
+                                data = request.get("data") if request.get("data") != None else "{}",
+                                allow_redirects = False,
+                                timeout = request["timeout"]
+                            ) as response:
+                                _status = response.status
+                                _content = (await resp.content.read()).decode('utf8')
+
+                                _chain = vars(RESTRequest).get(request.get("chain"))
+                                if _chain:
+                                    _chain_param = request.get("respchain_kwarg")
+                                    _chain_request = await _chain(_content, **_chain_param)
+                                    if _chain_request:
+                                        self.reqqueue.put((RESTQueuePriority.HIGH,chain_request))
+                                else:
+                                    _jcontent = json.loads(_content)
+                                    self.respmsgr.send_message("rest.response", _jcontent)
+
+                        except (
+                            aiohttp.ServerTimeoutError,
+                            aiohttp.client_exceptions.ClientConnectorError
+                        ) as e:
+                            retried = request.get("retried")
+                            if not retried:
+                                request["retried"] = 1
+                                self.requeue.put((RESTQueuePriority.MIDHIGH, request))
+                            elif retried < MAX_RETRIED:
+                                request["retried"] = retried + 1
+                                self.requeue.put((RESTQueuePriority.MIDHIGH, request))
+                            else:
+                                _msg = { "status":"failed", "request":request, "retried":retried }
+                                self.respmsgr.send_message("rest.response", _msg )
+
+                        await asyncio.sleep(0)
+
+            except Exception as e:
+                await asyncio.sleep(0)
+
+
+
+
+
