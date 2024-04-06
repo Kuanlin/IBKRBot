@@ -6,6 +6,7 @@ use_model = modelconfig["use_model"]
 model_name = modelconfig["name"]
 model = vars(importlib.import_module(f"botmodel.{use_model}")).get(model_name)
 
+
 class BotBase():
     
     def __init__(self, model:ModelBase):
@@ -21,7 +22,7 @@ class BotBase():
                     await asyncio.sleep(0)
                     try:
                         await asyncio.sleep(0)
-                        await self.model.mainloop()
+                        await self.model.main()
                     except Exception as e:
                         #await self.restReInit()
                         await asyncio.sleep(1)
