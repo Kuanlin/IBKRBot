@@ -29,9 +29,6 @@ class BotBase():
             except Exception as e:
                 await asyncio.sleep(1)
                 next
-        
-    async def mainloop():
-        await asyncio.sleep(0)
 
 async def ask_exit(signame):
     print("got signal %s: exit" % signame)
