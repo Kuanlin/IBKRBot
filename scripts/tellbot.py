@@ -8,10 +8,12 @@
 #check model parameters in database
 
 #check 
+import sys
+sys.path.append('..') 
 
 import argparse
 import asyncio, asyncpg
-from ..ConfigProvider import auths
+from ConfigProvider import auths
 from pprint import pprint as pp
 
 async def tellbot_run():
