@@ -33,7 +33,7 @@ class BotBase():
     async def mainloop():
         await asyncio.sleep(0)
 
-async def ask_exit()
+async def ask_exit():
     print("got signal %s: exit" % signame)
     await asyncio.sleep(10.0)
     loop = asyncio.get_event_loop()
