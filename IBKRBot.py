@@ -21,9 +21,9 @@ class BotBase():
                     await asyncio.sleep(0)
                     try:
                         await asyncio.sleep(0)
-                        await self.mainloop()
+                        await self.model.mainloop()
                     except Exception as e:
-                        await self.restReInit()
+                        #await self.restReInit()
                         await asyncio.sleep(1)
                         next
             except Exception as e:

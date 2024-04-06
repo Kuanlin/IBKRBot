@@ -4,7 +4,7 @@ from ModelBase import ModelBase
 class MyModel(ModelBase):
 
     async def entry():
-        pass
+        print("MyModel Entry")
 
     async def mainloop():
-        pass
+        print("MyModel MainLoop")
