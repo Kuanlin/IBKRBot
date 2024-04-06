@@ -8,9 +8,6 @@
 #check model parameters in database
 
 #check 
-import sys
-sys.path.append('..') 
-
 import argparse
 import asyncio, asyncpg
 from ConfigProvider import auths
@@ -123,11 +120,11 @@ async def list_pnl(args):
 
 async def tellbot():
     try:
-        await asyncio.gather( bset_run() )
+        await asyncio.gather( tellbot_run() )
     except:
         import traceback
         tb = traceback.format_exc()
-        #print(tb)
+        print(tb)
     loop = asyncio.get_event_loop()
     loop.stop()
 
@@ -141,7 +138,7 @@ if __name__ == '__main__':
     import docker
     client = docker.from_env()
     for i in ["ibkr", "rmq", "pdb"]:
-        c = client.container.get(i)
+        c = client.containers.get(i)
         if not c.status == "running":
             print(f"Aborted #{i} is not running.")
             exit()

@@ -1,4 +1,4 @@
-iimport docker, os, json, string, random
+import docker, os, json, string, random
 from getpass import getpass
 
 params_env = {
