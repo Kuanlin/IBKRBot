@@ -16,11 +16,13 @@ class BotBase():
         self.system = JSONMessenger(name = "botbase.sys", exchange_name = "sys.exchange", routing_key = "sys.message")
 
     async def entry(self):
+        await self.system.connect()
+        self.system.on_message = self.onSysMessage
+        
         await self.model.model_init()
         await self.model.entry()
         await self.mainloop()
-        await self.system.connect()
-        self.system.on_message = self.onSysMessage
+
 
     async def onSysMessage(self, message):
         if message.get("system") == "exit":
