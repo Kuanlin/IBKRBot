@@ -68,9 +68,10 @@ class RESTClient:
                         IBKRClientPortalURI,
                         connector=aiohttp.TCPConnector(verify_ssl=False)
                     ) as session:
-                        priority, request = await self.reqqueue.get_nowait()
-                        if not result:
+                        if self.reqqueue.empty():
+                            await asyncio.sleep(0)
                             continue
+                        priority, request = await self.reqqueue.get_nowait()
                         #print("RESTCleintSession")
                         #pp(request)
                         #print("url:", IBKRClientPortalURI+request["url"])
