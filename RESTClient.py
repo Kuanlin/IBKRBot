@@ -6,6 +6,8 @@ from pprint import pprint as pp
 
 MAX_RETRIED = 3
 
+IBKRClientPortalURI = "https://localhost:5000"
+
 class RESTQueuePriority(Enum):
     DEFAULT = 50
     MIDHIGH = 30 
