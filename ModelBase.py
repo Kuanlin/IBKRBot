@@ -15,14 +15,14 @@ class ModelBase():
         #self.toUser = JSONMessenger(name = "userrespmsgr.model", exchange_name = "user.exchange", routing_key = "usr.response")
         self.isPaused = default_paused
     
-    async def ainit(self):
-        print("Model ainit", flush = True)
+    async def model_init(self):
+        print("Model model_init", flush = True)
         await self.restRequest.connect()
         await self.restResponse.connect()
         await self.system.connect()
         #await self.fromUser.connect()
         #await self.toUser.connect()
-        print("Model ainit end", flush = True)
+        print("Model model_init end", flush = True)
 
     async def request(self, requests:list) -> None:
         print("Model request", flush = True)

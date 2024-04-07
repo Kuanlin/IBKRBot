@@ -13,8 +13,9 @@ class BotBase():
         self.model = model
 
     async def entry(self):
-        await self.model.ainit()
+        await self.model.model_init()
         await self.model.entry()
+        await self.mainloop()
 
     async def mainloop(self):
         while True:
@@ -43,7 +44,7 @@ async def ask_exit(signame):
 
 async def run():
     while(True):
-        print(".", end="", flush=True)
+        #print(".", end="", flush=True)
         await asyncio.sleep(1)
 
 async def main():
@@ -54,10 +55,8 @@ async def main():
     
     restClient = RESTClient()
     model = Model(name = model_name, default_paused = False)
-    #print(type(model))
     bot = BotBase(model)
-    await bot.entry()
-    await asyncio.gather(run(), bot.mainloop(), restClient.start())
+    await asyncio.gather(run(), bot.entry(), restClient.start())
 
 if __name__=="__main__":
     asyncio.run(main())

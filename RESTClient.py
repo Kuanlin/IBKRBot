@@ -43,7 +43,6 @@ class RESTClient:
         #if yes no to push
         pass
 
-
     async def _onSysMessage(self):
         pass
 
@@ -84,12 +83,15 @@ class RESTClient:
                                 #print("response_status:", _status, flush = True)
                                 #print("content:", _content, flush = True)
 
-                                _chain = vars(RESTRequest).get(request.get("chain"))
+                                _chain = request.get("chain")
                                 if _chain:
+                                    _chain_request = vars(RESTRequest).get(_chain)
                                     _chain_param = request.get("respchain_kwarg")
-                                    _chain_request = await _chain(_content, **_chain_param)
-                                    if _chain_request:
-                                        self.reqqueue.put((RESTQueuePriority.HIGH,chain_request))
+                                    _request = await _chain_request(_content, **_chain_param)
+                                    if _request:
+                                        self.reqqueue.put((RESTQueuePriority.HIGH, _request))
+                                    else:
+                                        raise Exception("Unexpect Chain Error")
                                 else:
                                     _jcontent = json.loads(_content)
                                     await self.respmsgr.send_message("rest.response", _jcontent)
@@ -113,7 +115,7 @@ class RESTClient:
                         await asyncio.sleep(0)
 
             except Exception as e:
-                print("CLIENT EXCEPTION OUTER")
+                print(e)
                 await asyncio.sleep(0)
 
 

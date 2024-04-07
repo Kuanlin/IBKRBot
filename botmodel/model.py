@@ -8,6 +8,10 @@ class MyModel(ModelBase):
     async def request(self, messenge_future):
         await self.restRequest.send_message("rest.request", await messenge_future)
 
+    async def requests(self, message_futures:list):
+        for messenge_future in message_futures:
+            await self.restRequest.send_message("rest.request", await messenge_future)
+
     async def onSysMessage(self, message:dict):
         pass
     
@@ -15,32 +19,14 @@ class MyModel(ModelBase):
         print("MyModel: onRestResponse", flush = True)
         pp(message)
 
-    async def getPortfolioLedger(self):
-        print("MyModel: portfolioLedger", flush = True)
-        await self.request(RESTRequest.portfolioLedger())
-
     async def modelModifyOrders(self):
-        pass
-
-    async def modelDeleteOrders(self):
-        #insert model order decision to database
-        #dbmsgr.send_messages(..//)
-        #restRequest.send_message([ DeleteOrders ...])
-        #restRequest.send_message([ check live Orders ])
-        pass
-
-    async def modelPlaceOrders(self):
-        #insert model order decision to database
-        #dbmsgr.send_messages(..//)
-        #restRequest.send_message([ PlaceOrders ...])
-        #restRequest.send_message([ check live Orders ])
         pass
 
     async def entry(self):
         print("MyModel: Entry", flush = True)
         self.system.on_message = self.onSysMessage
         self.restResponse.on_message = self.onRestResponse
-        await self.getPortfolioLedger()
+        await self.request(RESTRequest.portfolioLedger())
         
 
     async def mainloop(self):
