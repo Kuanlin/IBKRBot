@@ -24,7 +24,7 @@ class ModelBase():
         await self.toUser.connect()
 
     async def request(self, requests:list) -> None:
-        print("Model request", flush = True))
+        print("Model request", flush = True)
         assert type(requests) == list
         for r in requests:
             assert type(r) == dict
