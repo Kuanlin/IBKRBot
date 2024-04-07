@@ -124,6 +124,7 @@ class RESTClient:
                 await asyncio.sleep(0)
 
         await asyncio.sleep(2)
+        print("REST MSGR CLOSE")
         await self.reqmsgr.close()
         await self.respmsgr.close()
         await self.sysmsgr.close()

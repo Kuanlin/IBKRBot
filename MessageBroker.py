@@ -23,13 +23,12 @@ class Messenger:
         #await asyncio.Future()
     
     async def close(self):
-        #await self.queue.unbind()
         await self.queue.unbind(self.exchange_name, routing_key=self.routing_key)
         await self.queue.cancel(self.consumer_tag)
         await self.exchange.delete()
         await self.channel.close()
         await self.connection.close()
-
+        
 
     async def handle_message(self, message):
         async with message.process():

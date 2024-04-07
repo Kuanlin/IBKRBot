@@ -23,6 +23,7 @@ class BotBase():
         await self.model.model_init()
         await self.model.entry()
         await self.mainloop()
+        print("IBKR MSGR CLOSE")
         await self.system.close()
 
     async def onSysMessage(self, message):

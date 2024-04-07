@@ -71,6 +71,7 @@ class ModelBase():
             print(e)
         
         await asyncio.sleep(2)
+        print("MB MSGR CLOSE")
         await self.restRequest.close()
         await self.restResponse.close()
         await self.system.close()
