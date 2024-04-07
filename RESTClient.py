@@ -110,6 +110,7 @@ class RESTClient:
                         await asyncio.sleep(0)
 
             except Exception as e:
+                print("CLIENT EXCEPTION OUTER")
                 await asyncio.sleep(0)
 
 
