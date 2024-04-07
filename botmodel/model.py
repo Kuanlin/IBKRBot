@@ -9,11 +9,11 @@ class MyModel(ModelBase):
         pass
     
     async def onRestResponse(self, message:dict):
-        print("onRestResponse")
+        print("onRestResponse", flush = True)
         pp(message)
 
     async def portfolioLedger(self):
-        print("portfolioLedger")
+        print("portfolioLedger", flush = True)
         await self.restRequest.send_message("rest.request", await RESTRequest.portfolioLedger())
 
     async def modelModifyOrders(self):
@@ -34,13 +34,13 @@ class MyModel(ModelBase):
         pass
 
     async def entry(self):
-        print("MyModel Entry")
+        print("MyModel Entry", flush = True)
         self.system.on_message = self.onSysMessage
         self.restResponse.on_message = self.onRestResponse
         await self.portfolioLedger()
 
     async def mainloop(self):
-        print("MyModel MainLoop")
+        print("MyModel MainLoop", flush = True)
         #await request([
         #    
         #])

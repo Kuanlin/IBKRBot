@@ -16,6 +16,7 @@ class ModelBase():
         self.isPaused = default_paused
     
     async def ainit(self):
+        print("Model ainit", flush = True)
         await self.restRequest.connect()
         await self.restResponse.connect()
         await self.system.connect()
@@ -23,6 +24,7 @@ class ModelBase():
         await self.toUser.connect()
 
     async def request(self, requests:list) -> None:
+        print("Model request", flush = True))
         assert type(requests) == list
         for r in requests:
             assert type(r) == dict
@@ -42,10 +44,10 @@ class ModelBase():
 
 
     async def main(self):
-        print("In Model Main")
+        print("In Model Main", flush = True)
         while(True):
             while(isPaused):
-                print("In Model Main While")
+                print("In Model Main While", flush = True)
                 asyncio.sleep(0.5)
             await asyncio.sleep(0) 
             await mainloop()
