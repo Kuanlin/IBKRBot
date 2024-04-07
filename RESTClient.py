@@ -69,7 +69,7 @@ class RESTClient:
                         connector=aiohttp.TCPConnector(verify_ssl=False)
                     ) as session:
                         while(self.reqqueue.empty() or self.exit == False):
-                            await ayncio.sleep(0.1)
+                            await asyncio.sleep(0.1)
                         if self.exit:
                             break
                         priority, request = await self.reqqueue.get()
