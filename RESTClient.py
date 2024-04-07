@@ -12,7 +12,7 @@ class RESTQueuePriority(Enum):
     HIGH = 20
 
 
-class RESTSession:
+class RESTClient:
 
     def __init__(self):
         self.loop = asyncio.get_event_loop()
@@ -63,7 +63,7 @@ class RESTSession:
                         priority, request = await self.reqqueue.get()
                         print("RESTCleintSession")
                         pp(request)
-                        
+
                         try:
                             async with session.request(
                                 method = request["method"],
