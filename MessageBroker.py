@@ -18,14 +18,14 @@ class Messenger:
         self.channel = await self.connection.channel()        
         self.exchange = await self.channel.declare_exchange(self.exchange_name, aio_pika.ExchangeType.TOPIC, durable=True)
         self.queue = await self.channel.declare_queue(self.queue_name, durable=True)
-        await self.queue.consume(self.handle_message, no_ack=False)
+        self.consumer_tag = await self.queue.consume(self.handle_message, no_ack=False)
         await self.queue.bind(self.exchange_name, routing_key=self.routing_key)
         #await asyncio.Future()
     
     async def close(self):
         #await self.queue.unbind()
         await self.queue.unbind(self.exchange_name, routing_key=self.routing_key)
-        await self.queue.cancel()
+        await self.queue.cancel(self.consumer_tag)
         await self.channel.close()
         await self.connection.close()
 
