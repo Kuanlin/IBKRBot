@@ -2,6 +2,7 @@ import asyncio, aiohttp, json
 from MessageBroker import JSONMessenger
 from enum import Enum
 from RESTRequest import *
+from pprint import pprint as pp
 
 MAX_RETRIED = 3
 
@@ -61,6 +62,8 @@ class RESTSession:
                         
                         priority, request = await self.reqqueue.get()
 
+                        print(request)
+                        pp(request)
                         try:
                             async with session.request(
                                 method = request["method"],
