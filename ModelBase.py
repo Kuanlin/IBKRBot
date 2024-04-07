@@ -62,10 +62,12 @@ class ModelBase():
             while(not self.exit):
                 print(f"xx: {self.isPaused} {self.exit}", flush = True)
                 await asyncio.sleep(1)
+                
                 while(self.isPaused and not self.exit):
-                    print("In Model Main While", flush = True)
                     await asyncio.sleep(0.5)
-                    await self.mainloop()
+
+                print("In Model Main While", flush = True)
+                await self.mainloop()
         except Exception as e:
             print("in model main exception:")
             print(e)

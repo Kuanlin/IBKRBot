@@ -31,6 +31,7 @@ class BotBase():
         while not self.exit:
             try:
                 while not self.exit:
+                    print(f"Bot {self.exit}", flush = True)
                     await asyncio.sleep(0)
                     try:
                         await asyncio.sleep(0)
