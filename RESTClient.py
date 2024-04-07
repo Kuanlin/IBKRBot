@@ -22,6 +22,7 @@ class RESTClient:
         self.reqmsgr = JSONMessenger(name = "reqmsgr.restclient", exchange_name = "rest.exchange", routing_key = "rest.request")
         self.respmsgr = JSONMessenger(name = "respmsgr.restclient", exchange_name = "rest.exchange", routing_key = "rest.response")
         self.sysmsgr = JSONMessenger(name = "sysmsgr.restclient", exchange_name = "sys.exchange", routing_key = "sys.message")
+        self.exit = False
 
     async def start(self):
         self.reqmsgr.on_message = self._onRestRequest
@@ -43,8 +44,9 @@ class RESTClient:
         #if yes no to push
         pass
 
-    async def _onSysMessage(self):
-        pass
+    async def _onSysMessage(self, message_body):
+        if message_body.get("system") == "exit":
+            self.exit = True
 
     async def onResponse(self):
         pass
@@ -54,10 +56,10 @@ class RESTClient:
 
     async def _restClientSession(self) -> None:
         headers = {"User-Agent":"JAGMAGMAG/0.0.1 GGCG"}
-        while(True):
+        while(self.exit == False):
             try:
                 await self.onClientInit()
-                while(True):
+                while(self.exit == False):
                     await asyncio.sleep(0)
                     async with aiohttp.ClientSession(
                         IBKRClientPortalURI,

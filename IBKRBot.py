@@ -12,6 +12,7 @@ class BotBase():
     
     def __init__(self, model:ModelBase):
         self.model = model
+        self.exit = False
 
     async def entry(self):
         await self.model.model_init()
@@ -19,9 +20,9 @@ class BotBase():
         await self.mainloop()
 
     async def mainloop(self):
-        while True:
+        while self.exit == False:
             try:
-                while True:
+                while self.exit == False:
                     await asyncio.sleep(0)
                     try:
                         await asyncio.sleep(0)
