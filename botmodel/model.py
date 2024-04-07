@@ -33,8 +33,9 @@ class MyModel(ModelBase):
         #restRequest.send_message([ check live Orders ])
         pass
 
-    async def onRestRequest(self):
-        pass
+    async def onRestRequest(self, message):
+        print("onRestRequest")
+        pp(message)
 
     async def entry(self):
         print("MyModel Entry", flush = True)
