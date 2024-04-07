@@ -52,8 +52,8 @@ async def main():
         loop.add_signal_handler(getattr(signal, signame),
              lambda: asyncio.ensure_future(ask_exit(signame)))
     model = Model(name = model_name)
-    print(type(model))
-    bot = BotBase(model)
+    #print(type(model))
+    bot = BotBase(model, default_paused = False)
     await bot.entry()
     await asyncio.gather(run(), bot.mainloop())
 

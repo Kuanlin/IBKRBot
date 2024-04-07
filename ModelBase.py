@@ -4,7 +4,7 @@ from MessageBroker import JSONMessenger
 
 class ModelBase():
     
-    def __init__(self, name):
+    def __init__(self, name, default_paused = True):
         self.name = name
         self.scheduler = AsyncIOScheduler(({'event_loop': asyncio.get_event_loop()}))
         self.scheduler.start()
@@ -13,7 +13,7 @@ class ModelBase():
         self.system = JSONMessenger(name = "sysmsgr.model", exchange_name = "sys.exchange", routing_key = "sys.message")
         self.fromUser = JSONMessenger(name = "userreqmsgr.model", exchange_name = "user.exchange", routing_key = "usr.request")
         self.toUser = JSONMessenger(name = "userrespmsgr.model", exchange_name = "user.exchange", routing_key = "usr.response")
-        self.isPaused = True
+        self.isPaused = default_paused
     
     async def ainit(self):
         await self.restRequest.connect()
