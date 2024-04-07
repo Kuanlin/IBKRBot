@@ -54,7 +54,7 @@ class JSONMessenger(Messenger):
 
     async def send_message(self, dest_routing_key, message):
         assert type(message) == str or type(message) == dict
-        print("JSONMessenger.send_message")
+        #print("JSONMessenger.send_message")
         pp(message)
         if type(message) == dict:
             message = json.dumps(message)

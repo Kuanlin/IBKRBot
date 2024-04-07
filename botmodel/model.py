@@ -26,4 +26,5 @@ class MyModel(ModelBase):
         
     async def mainloop(self):
         print("MyModel: MainLoop", flush = True)
+        
         await asyncio.sleep(0.5)
