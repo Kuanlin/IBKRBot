@@ -59,13 +59,13 @@ async def ask_exit(signame):
     await system.send_message( dest_routing_key = "sys.message", message = {"system":"exit"})
     await asyncio.sleep(3.0)
     await system.close()
-    print("3 seconds before loop stops.")
-    await asyncio.sleep(3.0)
-    tasks = asyncio.all_tasks()
-    pp(tasks)
-    loop = asyncio.get_event_loop()
-    loop.stop()
-    print("loop stopped")
+    #print("3 seconds before loop stops.")
+    #await asyncio.sleep(3.0)
+    #tasks = asyncio.all_tasks()
+    #pp(tasks)
+    #loop = asyncio.get_event_loop()
+    #loop.stop()
+    #print("loop stopped")
 
 
 async def main():
