@@ -80,7 +80,7 @@ class RESTClient:
                                 _status = response.status
                                 _content = (await response.content.read()).decode('utf8')
                                 print("response")
-                                print(_content)
+                                print(_content, flush=True)
                                 _chain = vars(RESTRequest).get(request.get("chain"))
                                 if _chain:
                                     _chain_param = request.get("respchain_kwarg")
