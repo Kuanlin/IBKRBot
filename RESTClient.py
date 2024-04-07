@@ -78,7 +78,7 @@ class RESTClient:
                                 timeout = request["timeout"]
                             ) as response:
                                 _status = response.status
-                                _content = (await resp.content.read()).decode('utf8')
+                                _content = (await response.content.read()).decode('utf8')
                                 print("response")
                                 print(_content)
                                 _chain = vars(RESTRequest).get(request.get("chain"))
