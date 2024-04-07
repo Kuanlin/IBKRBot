@@ -5,6 +5,7 @@ from ConfigProvider import ibkr
 
 DEFAULT_ACCOUNTID = ibkr.get("DEFAULT_ACCOUNTID")
 DEFAULT_ORDER_CONFIRM = ibkr.get("DEFAULT_ORDER_CONFIRM")
+DEFAULT_TIMEOUT = 3
 
 class OrderSide:
     BUY = "buy"
