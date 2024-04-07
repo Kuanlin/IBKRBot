@@ -2,6 +2,7 @@ import asyncio
 import aio_pika
 import json
 from ConfigProvider import auths
+from pprint import pprint as pp
 
 class Messenger:
     
@@ -45,6 +46,8 @@ class JSONMessenger(Messenger):
 
     async def send_message(self, dest_routing_key, message):
         assert type(message) == str or type(message) == dict
+        print("JSONMessenger.send_message")
+        pp(message)
         if type(message) == dict:
             message = json.dumps(message)
         await self.exchange.publish(
