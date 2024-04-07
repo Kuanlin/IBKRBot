@@ -23,14 +23,12 @@ class BotBase():
         await self.model.model_init()
         await self.model.entry()
         await self.mainloop()
-
+        await self.system.close()
 
     async def onSysMessage(self, message):
         if message.get("system") == "exit":
             print("Bot receive Exit Message")
             self.exit = True
-            await asyncio.sleep(2)
-            await self.system.close()
 
     async def mainloop(self):
         while not self.exit:
