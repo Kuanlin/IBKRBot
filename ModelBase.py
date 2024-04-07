@@ -40,10 +40,12 @@ class ModelBase():
     async def onSysMessage(self, message):
         if message.get("system") == "exit":
             print("Model receive Exit Message")
-            #await self.restRequest.close()
-            #await self.restResponse.close()
-            #await self.system.close()
             self.exit = True
+            await asyncio.sleep(2)
+            await self.restRequest.close()
+            await self.restResponse.close()
+            await self.system.close()
+            
 
 
     async def pasued(self):

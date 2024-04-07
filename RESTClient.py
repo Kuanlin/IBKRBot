@@ -47,10 +47,12 @@ class RESTClient:
     async def _onSysMessage(self, message_body):
         if message_body.get("system") == "exit":
             print("RESTClient receive Exit Message")
-            #await self.reqmsgr.close()
-            #await self.respmsgr.close()
-            #await self.sysmsgr.close()
             self.exit = True
+            await asyncio.sleep(2)
+            await self.reqmsgr.close()
+            await self.respmsgr.close()
+            await self.sysmsgr.close()
+            
 
     async def onResponse(self):
         pass
