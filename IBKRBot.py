@@ -52,10 +52,10 @@ class BotBase():
 async def ask_exit(signame):
     system = JSONMessenger(name = "askexit.model", exchange_name = "sys.exchange", routing_key = "sys.message")
     await system.connect()
-    await asyncio.sleep(3.0)
-    await system.close()
     print("got signal %s: exit" % signame)
     await system.send_message( dest_routing_key = "sys.message", message = {"system":"exit"})
+    await asyncio.sleep(3.0)
+    await system.close()
     print("3 seconds before loop stops.")
     await asyncio.sleep(3.0)
     tasks = asyncio.all_tasks()
