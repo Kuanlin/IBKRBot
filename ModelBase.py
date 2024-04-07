@@ -63,8 +63,7 @@ class ModelBase():
                 print("In Model Main While", flush = True)
                 asyncio.sleep(0.5)
             await asyncio.sleep(0) 
-            await mainloop()
+            await self.mainloop()
             
-
     async def mainloop(self):
         pass

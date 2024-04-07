@@ -24,10 +24,6 @@ class MyModel(ModelBase):
         self.restResponse.on_message = self.onRestResponse
         await self.request(RESTRequest.portfolioLedger())
         
-
     async def mainloop(self):
         print("MyModel: MainLoop", flush = True)
-        #await request([
-        #    
-        #])
         await asyncio.sleep(0.5)
