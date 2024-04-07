@@ -22,7 +22,7 @@ class OrderTIF:
 _OrderTIF = [ OrderTIF.__getattribute__(OrderTIF, x) for x in OrderTIF.__dict__ if not x.startswith("__") and not x.endswith("__") ]
 
 
-class RestRequest:
+class RESTRequest:
     
     async def liveOrders(
         filters:list = [],

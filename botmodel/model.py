@@ -1,6 +1,6 @@
 import asyncio
 from ModelBase import ModelBase
-import RESTRequest
+from RESTRequest import RESTRequest
 from pprint import pprint as pp
 
 class MyModel(ModelBase):
