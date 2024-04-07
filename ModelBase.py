@@ -4,7 +4,7 @@ from MessageBroker import JSONMessenger
 
 class ModelBase():
     
-    
+
     def __init__(self, name, default_paused = True):
         self.name = name
         self.scheduler = AsyncIOScheduler(({'event_loop': asyncio.get_event_loop()}))

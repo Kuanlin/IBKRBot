@@ -13,11 +13,19 @@ class BotBase():
     def __init__(self, model:ModelBase):
         self.model = model
         self.exit = False
+        self.system = JSONMessenger(name = "botbase.sys", exchange_name = "sys.exchange", routing_key = "sys.message")
 
     async def entry(self):
         await self.model.model_init()
         await self.model.entry()
         await self.mainloop()
+        await self.system.connect()
+        systme.on_message = self.onSysMessage
+
+    async def onSysMessage(self, message):
+        if message.get("system") == "exit":
+            print("Bot receive Exit Message")
+            self.exit = True
 
     async def mainloop(self):
         while not self.exit:
@@ -52,7 +60,7 @@ async def main():
     for signame in ('SIGINT', 'SIGTERM'):
         loop.add_signal_handler(getattr(signal, signame),
              lambda: asyncio.ensure_future(ask_exit(signame)))
-             
+
     restClient = RESTClient()
     model = Model(name = model_name, default_paused = False)
     bot = BotBase(model)
