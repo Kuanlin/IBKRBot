@@ -61,7 +61,7 @@ class ModelBase():
         try:
             while(not self.exit):
                 print("x")
-                await asyncio.sleep(0)
+                await asyncio.sleep(1)
                 while(self.isPaused and not self.exit):
                     print("In Model Main While", flush = True)
                     await asyncio.sleep(0.5)
