@@ -26,6 +26,7 @@ class Messenger:
         #await self.queue.unbind()
         await self.queue.unbind(self.exchange_name, routing_key=self.routing_key)
         await self.queue.cancel(self.consumer_tag)
+        self.exchange.delete()
         await self.channel.close()
         await self.connection.close()
 
