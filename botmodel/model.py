@@ -14,7 +14,7 @@ class MyModel(ModelBase):
 
     async def portfolioLedger(self):
         print("portfolioLedger")
-        self.restRequest.send_message("rest.request", await RESTRequest.portfolioLedger())
+        await self.restRequest.send_message("rest.request", await RESTRequest.portfolioLedger())
 
     async def modelModifyOrders(self):
         pass
