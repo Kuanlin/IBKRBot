@@ -24,7 +24,6 @@ class RESTClient:
         self.sysmsgr = JSONMessenger(name = "sysmsgr.restclient", exchange_name = "sys.exchange", routing_key = "sys.message")
 
     async def start(self):
-        await self.reqmsgr.connect()
         self.reqmsgr.on_message = self._onRestRequest
         await self.reqmsgr.connect()
         self.respmsgr.on_message = self._onRestResponse
@@ -35,7 +34,7 @@ class RESTClient:
 
 
     async def _onRestRequest(self, message_body):
-        print("RESTClient onRestRequest")
+        print("RESTClient onRestRequest", flush=True)
         pp(message_body)
         await self.reqqueue.put( (RESTQueuePriority, message_body) )
 
