@@ -20,7 +20,7 @@ class Messenger:
         self.queue = await self.channel.declare_queue(self.queue_name, durable=True)
         await self.queue.consume(self.handle_message, no_ack=False)
         await self.queue.bind(self.exchange_name, routing_key=self.routing_key)
-        await asyncio.Future()
+        #await asyncio.Future()
 
     async def handle_message(self, message):
         async with message.process():
