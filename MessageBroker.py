@@ -23,6 +23,7 @@ class Messenger:
         #await asyncio.Future()
     
     async def close(self):
+        await asyncio.sleep(2)
         await self.channel.close()
         await self.connection.close()
 
