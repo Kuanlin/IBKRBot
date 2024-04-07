@@ -4,6 +4,7 @@ from MessageBroker import JSONMessenger
 
 class ModelBase():
     
+    
     def __init__(self, name, default_paused = True):
         self.name = name
         self.scheduler = AsyncIOScheduler(({'event_loop': asyncio.get_event_loop()}))
@@ -16,6 +17,7 @@ class ModelBase():
         self.isPaused = default_paused
         self.exit = False
     
+
     async def model_init(self):
         print("Model model_init", flush = True)
         await self.restRequest.connect()
@@ -26,6 +28,7 @@ class ModelBase():
         #await self.toUser.connect()
         print("Model model_init end", flush = True)
 
+
     async def request(self, requests:list) -> None:
         print("Model request", flush = True)
         assert type(requests) == list
@@ -33,9 +36,12 @@ class ModelBase():
             assert type(r) == dict
             reqmsgr.send_message(routing_key="rest.request", message = r)
 
+
     async def onSysMessage(self, message):
         if message.get("system") == "exit":
-            print("system exit signal")
+            print("Model receive Exit Message")
+            self.exit = True
+
 
     async def pasued(self):
         self.isPaused = True

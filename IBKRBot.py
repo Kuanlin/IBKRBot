@@ -20,9 +20,9 @@ class BotBase():
         await self.mainloop()
 
     async def mainloop(self):
-        while self.exit == False:
+        while not self.exit:
             try:
-                while self.exit == False:
+                while not self.exit:
                     await asyncio.sleep(0)
                     try:
                         await asyncio.sleep(0)
@@ -38,30 +38,25 @@ class BotBase():
 async def ask_exit(signame):
     system = JSONMessenger(name = "askexit.model", exchange_name = "sys.exchange", routing_key = "sys.message")
     await system.connect()
-    await system.send_message( dest_routing_key = "sys.message", message = {"system":"exit"})
     print("got signal %s: exit" % signame)
-    print("wait for 3 second")
+    await system.send_message( dest_routing_key = "sys.message", message = {"system":"exit"})
+    print("3 seconds before loop stops.")
     await asyncio.sleep(3.0)
-    print("loop stopping")
     loop = asyncio.get_event_loop()
     loop.stop()
     print("loop stopped")
 
-async def run():
-    while(True):
-        #print(".", end="", flush=True)
-        await asyncio.sleep(1)
 
 async def main():
     loop = asyncio.get_event_loop()
     for signame in ('SIGINT', 'SIGTERM'):
         loop.add_signal_handler(getattr(signal, signame),
              lambda: asyncio.ensure_future(ask_exit(signame)))
-    
+             
     restClient = RESTClient()
     model = Model(name = model_name, default_paused = False)
     bot = BotBase(model)
-    await asyncio.gather(run(), bot.entry(), restClient.start())
+    await asyncio.gather(bot.entry(), restClient.start())
 
 if __name__=="__main__":
     asyncio.run(main())
