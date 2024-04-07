@@ -33,14 +33,14 @@ class MyModel(ModelBase):
         #restRequest.send_message([ check live Orders ])
         pass
 
-    async def onRestRequest(self, message):
-        print("MyModel: onRestRequest")
-        pp(message)
+    #async def onRestRequest(self, message):
+    #    print("MyModel: onRestRequest")
+    #    pp(message)
 
     async def entry(self):
         print("MyModel: Entry", flush = True)
         #self.system.on_message = self.onSysMessage
-        self.restRequest.on_message = self.onRestRequest
+        #self.restRequest.on_message = self.onRestRequest
         self.restResponse.on_message = self.onRestResponse
         await self.portfolioLedger()
 
