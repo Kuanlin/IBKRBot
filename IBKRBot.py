@@ -2,6 +2,7 @@ import asyncio, signal, json, importlib
 from ModelBase import ModelBase
 from ConfigProvider import *
 from RESTClient import RESTClient
+from MessageBroker import JSONMessenger
 use_model = modelconfig["use_model"]
 model_name = modelconfig["name"]
 Model = vars(importlib.import_module(f"botmodel.{use_model}")).get(model_name)
