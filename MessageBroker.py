@@ -21,11 +21,6 @@ class Messenger:
         await self.queue.consume(self.handle_message, no_ack=False)
         await self.queue.bind(self.exchange_name, routing_key=self.routing_key)
         #await asyncio.Future()
-    
-    async def close(self):
-        await asyncio.sleep(2)
-        await self.channel.close()
-        await self.connection.close()
 
     async def handle_message(self, message):
         async with message.process():
