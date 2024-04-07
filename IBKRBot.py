@@ -34,6 +34,9 @@ class BotBase():
                 next
 
 async def ask_exit(signame):
+    system = JSONMessenger(name = "askexit.model", exchange_name = "sys.exchange", routing_key = "sys.message")
+    await.system.connect()
+    await.system.send({"system":"exit"})
     print("got signal %s: exit" % signame)
     print("wait for 3 second")
     await asyncio.sleep(3.0)

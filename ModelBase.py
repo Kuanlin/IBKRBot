@@ -20,6 +20,7 @@ class ModelBase():
         await self.restRequest.connect()
         await self.restResponse.connect()
         await self.system.connect()
+        await self.system.on_message = self.onSysMessage()
         #await self.fromUser.connect()
         #await self.toUser.connect()
         print("Model model_init end", flush = True)
@@ -31,6 +32,9 @@ class ModelBase():
             assert type(r) == dict
             reqmsgr.send_message(routing_key="rest.request", message = r)
 
+    async def onSysMessage(self, message):
+        if message.get("system") == "exit":
+            print("system exit signal")
 
     async def pasued(self):
         self.isPaused = True
