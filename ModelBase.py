@@ -10,7 +10,7 @@ class ModelBase():
         self.scheduler.start()
         self.restRequest = JSONMessenger(name = "reqmsgr.model", exchange_name = "rest.exchange", routing_key = "rest.request")
         self.restResponse = JSONMessenger(name = "respmsgr.model", exchange_name = "rest.exchange", routing_key = "rest.response")
-        #self.system = JSONMessenger(name = "sysmsgr.model", exchange_name = "sys.exchange", routing_key = "sys.message")
+        self.system = JSONMessenger(name = "sysmsgr.model", exchange_name = "sys.exchange", routing_key = "sys.message")
         #self.fromUser = JSONMessenger(name = "userreqmsgr.model", exchange_name = "user.exchange", routing_key = "usr.request")
         #self.toUser = JSONMessenger(name = "userrespmsgr.model", exchange_name = "user.exchange", routing_key = "usr.response")
         self.isPaused = default_paused
@@ -19,7 +19,7 @@ class ModelBase():
         print("Model ainit", flush = True)
         await self.restRequest.connect()
         await self.restResponse.connect()
-        #await self.system.connect()
+        await self.system.connect()
         #await self.fromUser.connect()
         #await self.toUser.connect()
         print("Model ainit end", flush = True)
