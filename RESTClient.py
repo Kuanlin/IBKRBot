@@ -65,9 +65,9 @@ class RESTClient:
                         connector=aiohttp.TCPConnector(verify_ssl=False)
                     ) as session:
                         priority, request = await self.reqqueue.get()
-                        print("RESTCleintSession")
-                        pp(request)
-                        print("url:", IBKRClientPortalURI+request["url"])
+                        #print("RESTCleintSession")
+                        #pp(request)
+                        #print("url:", IBKRClientPortalURI+request["url"])
                         try:
                             async with session.request(
                                 method = request["method"],
@@ -80,9 +80,9 @@ class RESTClient:
                             ) as response:
                                 _status = response.status
                                 _content = (await response.content.read()).decode('utf8')
-                                print("response", flush = True)
-                                print("response_status:", _status, flush = True)
-                                print("content:", _content, flush = True)
+                                #print("response", flush = True)
+                                #print("response_status:", _status, flush = True)
+                                #print("content:", _content, flush = True)
 
                                 _chain = vars(RESTRequest).get(request.get("chain"))
                                 if _chain:
