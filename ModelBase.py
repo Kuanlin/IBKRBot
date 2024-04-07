@@ -22,6 +22,7 @@ class ModelBase():
         await self.system.connect()
         await self.fromUser.connect()
         await self.toUser.connect()
+        print("Model ainit end", flush = True)
 
     async def request(self, requests:list) -> None:
         print("Model request", flush = True)
