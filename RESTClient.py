@@ -92,7 +92,7 @@ class RESTClient:
                                         self.reqqueue.put((RESTQueuePriority.HIGH,chain_request))
                                 else:
                                     _jcontent = json.loads(_content)
-                                    self.respmsgr.send_message("rest.response", _jcontent)
+                                    await self.respmsgr.send_message("rest.response", _jcontent)
 
                         except (
                             aiohttp.ServerTimeoutError,
