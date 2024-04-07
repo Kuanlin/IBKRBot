@@ -42,8 +42,10 @@ class ModelBase():
 
 
     async def main(self):
+        print("In Model Main")
         while(True):
             while(isPaused):
+                print("In Model Main While")
                 asyncio.sleep(0.5)
             await asyncio.sleep(0) 
             await mainloop()
