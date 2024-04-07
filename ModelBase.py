@@ -56,7 +56,7 @@ class ModelBase():
 
 
     async def main(self):
-        await asyncio.sleep(0)
+        await asyncio.sleep(1)
         print("In Model Main", flush = True)
         try:
             while(not self.exit):
