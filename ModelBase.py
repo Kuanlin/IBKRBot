@@ -20,7 +20,7 @@ class ModelBase():
         await self.restRequest.connect()
         await self.restResponse.connect()
         await self.system.connect()
-        await self.system.on_message = self.onSysMessage()
+        self.system.on_message = self.onSysMessage()
         #await self.fromUser.connect()
         #await self.toUser.connect()
         print("Model model_init end", flush = True)
