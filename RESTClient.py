@@ -35,6 +35,8 @@ class RESTClient:
 
 
     async def _onRestRequest(self, message_body):
+        print("RESTClient onRestRequest")
+        pp(message_body)
         await self.reqqueue.put( (RESTQueuePriority, message_body) )
 
 
