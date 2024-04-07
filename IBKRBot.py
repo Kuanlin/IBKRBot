@@ -19,12 +19,10 @@ class BotBase():
     async def entry(self):
         await self.system.connect()
         self.system.on_message = self.onSysMessage
-
         await self.model.model_init()
         await self.model.entry()
         await self.mainloop()
-        print("IBKR MSGR CLOSE")
-        await self.system.close()
+
 
     async def onSysMessage(self, message):
         if message.get("system") == "exit":
@@ -32,23 +30,27 @@ class BotBase():
             self.exit = True
 
     async def mainloop(self):
-        while not self.exit:
-            try:
-                while not self.exit:
-                    print(f"Bot {self.exit}", flush = True)
-                    await asyncio.sleep(0)
-                    try:
+        try:
+            while not self.exit:
+                try:
+                    while not self.exit:
+                        print(f"Bot {self.exit}", flush = True)
                         await asyncio.sleep(0)
-                        await self.model.main()
-                    except Exception as e:
-                        #await self.restReInit()
-                        print(e)
-                        await asyncio.sleep(1)
-                        next
-            except Exception as e:
-                print(e)
-                await asyncio.sleep(1)
-                next
+                        try:
+                            await asyncio.sleep(0)
+                            await self.model.main()
+                        except Exception as e:
+                            #await self.restReInit()
+                            print(e)
+                            await asyncio.sleep(1)
+                            continue
+                except Exception as e:
+                    print(e)
+                    await asyncio.sleep(1)
+                    continue
+        finally:
+            print("IBKR MSGR CLOSE")
+            await self.system.close()
 
 async def ask_exit(signame):
     system = JSONMessenger(name = "askexit.model", exchange_name = "sys.exchange", routing_key = "sys.message")

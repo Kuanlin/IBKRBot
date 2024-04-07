@@ -59,78 +59,79 @@ class RESTClient:
 
     async def _restClientSession(self) -> None:
         headers = {"User-Agent":"JAGMAGMAG/0.0.1 GGCG"}
-        while(self.exit == False):
-            try:
-                await self.onClientInit()
-                while(self.exit == False):
-                    await asyncio.sleep(0)
-                    async with aiohttp.ClientSession(
-                        IBKRClientPortalURI,
-                        connector=aiohttp.TCPConnector(verify_ssl=False)
-                    ) as session:
-                        if self.reqqueue.empty():
-                            await asyncio.sleep(0)
-                            continue
-                        priority, request = await self.reqqueue.get_nowait()
-                        #print("RESTCleintSession")
-                        #pp(request)
-                        #print("url:", IBKRClientPortalURI+request["url"])
-                        try:
-                            async with session.request(
-                                method = request["method"],
-                                url = request["url"],
-                                headers = headers | {} if not request.get("headers") else request.get("headers"),
-                                params = request["params"],
-                                data = request.get("data") if request.get("data") != None else "{}",
-                                allow_redirects = False,
-                                timeout = request["timeout"]
-                            ) as response:
-                                _status = response.status
-                                _content = (await response.content.read()).decode('utf8')
-                                #print("response", flush = True)
-                                #print("response_status:", _status, flush = True)
-                                #print("content:", _content, flush = True)
-
-                                _chain = request.get("chain")
-                                if _chain:
-                                    _chain_request = vars(RESTRequest).get(_chain)
-                                    _chain_param = request.get("respchain_kwarg")
-                                    _request = await _chain_request(_content, **_chain_param)
-                                    if _request:
-                                        self.reqqueue.put((RESTQueuePriority.HIGH, _request))
-                                    else:
-                                        raise Exception("Unexpect Chain Error")
-                                else:
-                                    _jcontent = json.loads(_content)
-                                    await self.respmsgr.send_message("rest.response", _jcontent)
-
-                        except (
-                            aiohttp.ServerTimeoutError,
-                            aiohttp.client_exceptions.ClientConnectorError
-                        ) as e:
-                            print("CLIENT EXCEPTION")
-                            retried = request.get("retried")
-                            if not retried:
-                                request["retried"] = 1
-                                self.requeue.put((RESTQueuePriority.MIDHIGH, request))
-                            elif retried < MAX_RETRIED:
-                                request["retried"] = retried + 1
-                                self.requeue.put((RESTQueuePriority.MIDHIGH, request))
-                            else:
-                                _msg = { "status":"failed", "request":request, "retried":retried }
-                                self.respmsgr.send_message("rest.response", _msg )
-
+        try:
+            while(self.exit == False):
+                try:
+                    await self.onClientInit()
+                    while(self.exit == False):
                         await asyncio.sleep(0)
+                        async with aiohttp.ClientSession(
+                            IBKRClientPortalURI,
+                            connector=aiohttp.TCPConnector(verify_ssl=False)
+                        ) as session:
+                            if self.reqqueue.empty():
+                                await asyncio.sleep(0)
+                                continue
+                            priority, request = await self.reqqueue.get_nowait()
+                            #print("RESTCleintSession")
+                            #pp(request)
+                            #print("url:", IBKRClientPortalURI+request["url"])
+                            try:
+                                async with session.request(
+                                    method = request["method"],
+                                    url = request["url"],
+                                    headers = headers | {} if not request.get("headers") else request.get("headers"),
+                                    params = request["params"],
+                                    data = request.get("data") if request.get("data") != None else "{}",
+                                    allow_redirects = False,
+                                    timeout = request["timeout"]
+                                ) as response:
+                                    _status = response.status
+                                    _content = (await response.content.read()).decode('utf8')
+                                    #print("response", flush = True)
+                                    #print("response_status:", _status, flush = True)
+                                    #print("content:", _content, flush = True)
 
-            except Exception as e:
-                print(e)
-                await asyncio.sleep(0)
+                                    _chain = request.get("chain")
+                                    if _chain:
+                                        _chain_request = vars(RESTRequest).get(_chain)
+                                        _chain_param = request.get("respchain_kwarg")
+                                        _request = await _chain_request(_content, **_chain_param)
+                                        if _request:
+                                            self.reqqueue.put((RESTQueuePriority.HIGH, _request))
+                                        else:
+                                            raise Exception("Unexpect Chain Error")
+                                    else:
+                                        _jcontent = json.loads(_content)
+                                        await self.respmsgr.send_message("rest.response", _jcontent)
 
-        await asyncio.sleep(2)
-        print("REST MSGR CLOSE")
-        await self.reqmsgr.close()
-        await self.respmsgr.close()
-        await self.sysmsgr.close()
+                            except (
+                                aiohttp.ServerTimeoutError,
+                                aiohttp.client_exceptions.ClientConnectorError
+                            ) as e:
+                                print("CLIENT EXCEPTION")
+                                retried = request.get("retried")
+                                if not retried:
+                                    request["retried"] = 1
+                                    self.requeue.put((RESTQueuePriority.MIDHIGH, request))
+                                elif retried < MAX_RETRIED:
+                                    request["retried"] = retried + 1
+                                    self.requeue.put((RESTQueuePriority.MIDHIGH, request))
+                                else:
+                                    _msg = { "status":"failed", "request":request, "retried":retried }
+                                    self.respmsgr.send_message("rest.response", _msg )
+
+                            await asyncio.sleep(0)
+
+                except Exception as e:
+                    print(e)
+                    await asyncio.sleep(0)
+        finally:
+            await asyncio.sleep(2)
+            print("REST MSGR CLOSE")
+            await self.reqmsgr.close()
+            await self.respmsgr.close()
+            await self.sysmsgr.close()
 
 
 

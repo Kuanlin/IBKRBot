@@ -69,12 +69,12 @@ class ModelBase():
         except Exception as e:
             print("in model main exception:")
             print(e)
-        
-        await asyncio.sleep(2)
-        print("MB MSGR CLOSE")
-        await self.restRequest.close()
-        await self.restResponse.close()
-        await self.system.close()
+        finally:
+            await asyncio.sleep(2)
+            print("MB MSGR CLOSE")
+            await self.restRequest.close()
+            await self.restResponse.close()
+            await self.system.close()
 
             
     async def mainloop(self):
