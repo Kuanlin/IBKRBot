@@ -50,6 +50,8 @@ class RESTClient:
     async def onResponse(self):
         pass
     
+    async def onClientInit(self):
+        print("RESTClient onClientInit")
 
     async def _restClientSession(self) -> None:
         headers = {"User-Agent":"JAGMAGMAG/0.0.1 GGCG"}
@@ -62,7 +64,6 @@ class RESTClient:
                         IBKRClientPortalURI,
                         connector=aiohttp.TCPConnector(verify_ssl=False)
                     ) as session:
-
                         priority, request = await self.reqqueue.get()
                         print("RESTCleintSession")
                         pp(request)
