@@ -16,11 +16,11 @@ class ModelBase():
         self.isPaused = True
     
     async def ainit(self):
-        self.restRequest.connect()
-        self.restResponse.connect()
-        self.system.connect()
-        self.fromUser.connect()
-        self.toUser.connect()
+        await self.restRequest.connect()
+        await self.restResponse.connect()
+        await self.system.connect()
+        await self.fromUser.connect()
+        await self.toUser.connect()
 
     async def request(self, requests:list) -> None:
         assert type(requests) == list

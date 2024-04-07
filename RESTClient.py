@@ -21,13 +21,13 @@ class RESTSession:
         self.sysmsgr = JSONMessenger(name = "sysmsgr.restclient", exchange_name = "sys.exchange", routing_key = "sys.message")
 
     async def start(self):
-        self.reqmsgr.connect()
+        await self.reqmsgr.connect()
         self.reqmsgr.on_message = self._onRestRequest
-        self.reqmsgr.connect()
+        await self.reqmsgr.connect()
         self.respmsgr.on_message = self._onRestResonse
-        self.respmsgr.connect()
+        await self.respmsgr.connect()
         self.sysmsgr.on_message = self._onSysMessage
-        self.sysmsgr.connect()
+        await self.sysmsgr.connect()
         await self._restClientSession()
 
 
