@@ -65,7 +65,6 @@ class RESTClient:
                         priority, request = await self.reqqueue.get()
                         print("RESTCleintSession")
                         pp(request)
-
                         try:
                             async with session.request(
                                 method = request["method"],
@@ -94,6 +93,7 @@ class RESTClient:
                             aiohttp.ServerTimeoutError,
                             aiohttp.client_exceptions.ClientConnectorError
                         ) as e:
+                            print("CLIENT EXCEPTION")
                             retried = request.get("retried")
                             if not retried:
                                 request["retried"] = 1
