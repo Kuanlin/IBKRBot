@@ -42,7 +42,7 @@ class JSONMessenger(Messenger):
             await self.on_message(json.loads(message.body.decode()))
 
     async def on_message(self, message):
-        raise NotImplementedError
+        pass
 
     async def send_message(self, dest_routing_key, message):
         assert type(message) == str or type(message) == dict

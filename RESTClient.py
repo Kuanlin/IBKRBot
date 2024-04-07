@@ -59,11 +59,11 @@ class RESTSession:
                         IBKRClientPortalURI,
                         connector=aiohttp.TCPConnector(verify_ssl=False)
                     ) as session:
-                        
-                        priority, request = await self.reqqueue.get()
 
-                        print(request)
+                        priority, request = await self.reqqueue.get()
+                        print("RESTCleintSession")
                         pp(request)
+                        
                         try:
                             async with session.request(
                                 method = request["method"],

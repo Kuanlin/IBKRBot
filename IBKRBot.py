@@ -1,7 +1,7 @@
 import asyncio, signal, json, importlib
 from ModelBase import ModelBase
 from ConfigProvider import *
-
+from RESTClient import RESTClient
 use_model = modelconfig["use_model"]
 model_name = modelconfig["name"]
 Model = vars(importlib.import_module(f"botmodel.{use_model}")).get(model_name)
@@ -51,11 +51,13 @@ async def main():
     for signame in ('SIGINT', 'SIGTERM'):
         loop.add_signal_handler(getattr(signal, signame),
              lambda: asyncio.ensure_future(ask_exit(signame)))
+    
+    restClient = RESTClient()
     model = Model(name = model_name, default_paused = False)
     #print(type(model))
     bot = BotBase(model)
     await bot.entry()
-    await asyncio.gather(run(), bot.mainloop())
+    await asyncio.gather(run(), bot.mainloop(), restClient.start())
 
 if __name__=="__main__":
     asyncio.run(main())
