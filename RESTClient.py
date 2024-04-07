@@ -36,7 +36,7 @@ class RESTClient:
         await self.reqqueue.put( (RESTQueuePriority, message_body) )
 
 
-    async def _onRestResponse(self):
+    async def _onRestResponse(self, message_body):
         #if yes no to push
         pass
 
@@ -76,7 +76,8 @@ class RESTClient:
                             ) as response:
                                 _status = response.status
                                 _content = (await resp.content.read()).decode('utf8')
-
+                                print("response")
+                                print(_content)
                                 _chain = vars(RESTRequest).get(request.get("chain"))
                                 if _chain:
                                     _chain_param = request.get("respchain_kwarg")
