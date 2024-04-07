@@ -11,9 +11,6 @@ class MyModel(ModelBase):
     async def requests(self, message_futures:list):
         for messenge_future in message_futures:
             await self.restRequest.send_message("rest.request", await messenge_future)
-
-    async def onSysMessage(self, message:dict):
-        pass
     
     async def onRestResponse(self, message:dict):
         print("MyModel: onRestResponse", flush = True)
@@ -24,7 +21,6 @@ class MyModel(ModelBase):
 
     async def entry(self):
         print("MyModel: Entry", flush = True)
-        self.system.on_message = self.onSysMessage
         self.restResponse.on_message = self.onRestResponse
         await self.request(RESTRequest.portfolioLedger())
         
