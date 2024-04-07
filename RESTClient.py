@@ -67,6 +67,7 @@ class RESTClient:
                         priority, request = await self.reqqueue.get()
                         print("RESTCleintSession")
                         pp(request)
+                        print("url:", IBKRClientPortalURI+request["url"])
                         try:
                             async with session.request(
                                 method = request["method"],
