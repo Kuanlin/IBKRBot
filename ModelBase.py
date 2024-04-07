@@ -14,6 +14,7 @@ class ModelBase():
         #self.fromUser = JSONMessenger(name = "userreqmsgr.model", exchange_name = "user.exchange", routing_key = "usr.request")
         #self.toUser = JSONMessenger(name = "userrespmsgr.model", exchange_name = "user.exchange", routing_key = "usr.response")
         self.isPaused = default_paused
+        self.exit = False
     
     async def model_init(self):
         print("Model model_init", flush = True)
@@ -50,8 +51,8 @@ class ModelBase():
 
     async def main(self):
         print("In Model Main", flush = True)
-        while(True):
-            while(isPaused):
+        while(not self.exit):
+            while(isPaused and not self.exit):
                 print("In Model Main While", flush = True)
                 asyncio.sleep(0.5)
             await asyncio.sleep(0) 
