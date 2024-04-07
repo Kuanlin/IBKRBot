@@ -13,6 +13,7 @@ class BotBase():
         self.model = model
 
     async def entry(self):
+        await self.model.ainit()
         await self.model.entry()
 
     async def mainloop(self):

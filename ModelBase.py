@@ -14,6 +14,13 @@ class ModelBase():
         self.fromUser = JSONMessenger(name = "userreqmsgr.model", exchange_name = "user.exchange", routing_key = "usr.request")
         self.toUser = JSONMessenger(name = "userrespmsgr.model", exchange_name = "user.exchange", routing_key = "usr.response")
         self.isPaused = True
+    
+    async def ainit(self):
+        self.restRequest.connect()
+        self.restResponse.connect()
+        self.system.connect()
+        self.fromUser.connect()
+        self.toUser.connect()
 
     async def request(self, requests:list) -> None:
         assert type(requests) == list
