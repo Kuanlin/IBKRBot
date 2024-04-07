@@ -37,9 +37,11 @@ class BotBase():
                         await self.model.main()
                     except Exception as e:
                         #await self.restReInit()
+                        print(e)
                         await asyncio.sleep(1)
                         next
             except Exception as e:
+                print(e)
                 await asyncio.sleep(1)
                 next
 
