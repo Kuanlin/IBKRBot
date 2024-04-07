@@ -35,9 +35,9 @@ class MyModel(ModelBase):
 
     async def entry(self):
         print("MyModel Entry")
-        self.system.on_message = onSysMessage
-        self.restResponse.on_message = onRestResponse
-        self.portfolioLedger()
+        self.system.on_message = self.onSysMessage
+        self.restResponse.on_message = self.onRestResponse
+        await self.portfolioLedger()
 
     async def mainloop(self):
         print("MyModel MainLoop")

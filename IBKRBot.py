@@ -4,7 +4,7 @@ from ConfigProvider import *
 
 use_model = modelconfig["use_model"]
 model_name = modelconfig["name"]
-model = vars(importlib.import_module(f"botmodel.{use_model}")).get(model_name)
+Model = vars(importlib.import_module(f"botmodel.{use_model}")).get(model_name)
 
 
 class BotBase():
@@ -50,7 +50,8 @@ async def main():
     for signame in ('SIGINT', 'SIGTERM'):
         loop.add_signal_handler(getattr(signal, signame),
              lambda: asyncio.ensure_future(ask_exit(signame)))
-    type(model)
+    model = Model(name = model_name)
+    print(type(model))
     bot = BotBase(model)
     await bot.entry()
     await asyncio.gather(run(), bot.mainloop())
