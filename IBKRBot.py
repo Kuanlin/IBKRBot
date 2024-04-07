@@ -20,7 +20,7 @@ class BotBase():
         await self.model.entry()
         await self.mainloop()
         await self.system.connect()
-        systme.on_message = self.onSysMessage
+        system.on_message = self.onSysMessage
 
     async def onSysMessage(self, message):
         if message.get("system") == "exit":

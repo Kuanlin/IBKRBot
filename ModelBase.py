@@ -34,7 +34,7 @@ class ModelBase():
         assert type(requests) == list
         for r in requests:
             assert type(r) == dict
-            reqmsgr.send_message(routing_key="rest.request", message = r)
+            await reqmsgr.send_message(routing_key="rest.request", message = r)
 
 
     async def onSysMessage(self, message):
@@ -56,6 +56,7 @@ class ModelBase():
 
 
     async def main(self):
+        await asyncio.sleep(0)
         print("In Model Main", flush = True)
         while(not self.exit):
             while(isPaused and not self.exit):
