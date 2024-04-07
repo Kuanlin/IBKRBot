@@ -25,7 +25,7 @@ class RESTClient:
         await self.reqmsgr.connect()
         self.reqmsgr.on_message = self._onRestRequest
         await self.reqmsgr.connect()
-        self.respmsgr.on_message = self._onRestResonse
+        self.respmsgr.on_message = self._onRestResponse
         await self.respmsgr.connect()
         self.sysmsgr.on_message = self._onSysMessage
         await self.sysmsgr.connect()
