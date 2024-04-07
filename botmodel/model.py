@@ -6,7 +6,7 @@ from pprint import pprint as pp
 class MyModel(ModelBase):
 
     async def request(self, messenge_future):
-        await self.restRequest.send_message("rest.request", messenge_future)
+        await self.restRequest.send_message("rest.request", await messenge_future)
 
     async def onSysMessage(self, message:dict):
         pass
