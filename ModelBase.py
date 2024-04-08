@@ -12,8 +12,8 @@ class ModelBase():
         self.restRequest = JSONMessenger(name = "reqmsgr.model", exchange_name = "rest.exchange", routing_key = "rest.request")
         self.restResponse = JSONMessenger(name = "respmsgr.model", exchange_name = "rest.exchange", routing_key = "rest.response")
         self.system = JSONMessenger(name = "sysmsgr.model", exchange_name = "sys.exchange", routing_key = "sys.message")
-        #self.fromUser = JSONMessenger(name = "userreqmsgr.model", exchange_name = "user.exchange", routing_key = "usr.request")
-        #self.toUser = JSONMessenger(name = "userrespmsgr.model", exchange_name = "user.exchange", routing_key = "usr.response")
+        self.fromUser = JSONMessenger(name = "userreqmsgr.model", exchange_name = "user.exchange", routing_key = "usr.request")
+        self.toUser = JSONMessenger(name = "userrespmsgr.model", exchange_name = "user.exchange", routing_key = "usr.response")
         self.isPaused = default_paused
         self.exit = False
     
@@ -24,8 +24,8 @@ class ModelBase():
         await self.restResponse.connect()
         await self.system.connect()
         self.system.on_message = self.onSysMessage
-        #await self.fromUser.connect()
-        #await self.toUser.connect()
+        await self.fromUser.connect()
+        await self.toUser.connect()
         print("Model model_init end", flush = True)
 
 
@@ -75,6 +75,8 @@ class ModelBase():
             await self.restRequest.close()
             await self.restResponse.close()
             await self.system.close()
+            await self.fromUser.close()
+            await self.toUser.close()
 
             
     async def mainloop(self):

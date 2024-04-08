@@ -26,19 +26,17 @@ class RESTClient:
 
     async def start(self):
         self.reqmsgr.on_message = self._onRestRequest
-        await self.reqmsgr.connect()
         self.respmsgr.on_message = self._onRestResponse
-        await self.respmsgr.connect()
         self.sysmsgr.on_message = self._onSysMessage
+        await self.reqmsgr.connect()
+        await self.respmsgr.connect()
         await self.sysmsgr.connect()
         await self._restClientSession()
-
 
     async def _onRestRequest(self, message_body):
         print("RESTClient onRestRequest", flush=True)
         pp(message_body)
         await self.reqqueue.put( (RESTQueuePriority, message_body) )
-
 
     async def _onRestResponse(self, message_body):
         #if yes no to push
