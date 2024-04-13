@@ -1,5 +1,6 @@
 import asyncio, asyncpg
 from ConfigProvider import auths
+from MessageBroker import JSONMessenger
 
 ACCOUNT = auths.get("pdb").get("account")
 PASSWORD = auths.get("pdb").get("password")
@@ -31,7 +32,7 @@ class Database:
             r"DO $$"
                 r"BEGIN "
                 r"IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'status') THEN "
-                    r"CREATE TYPE status AS ENUM ('stop', 'active', 'liquidating', 'deprecated');"
+                    r"CREATE TYPE status AS ENUM ('stop', 'active', 'liquidating', 'obsolete');"
                 r"END IF;"
             r"END $$;" )
         #print(stmt)
@@ -300,8 +301,7 @@ class Database:
         #set new config :statuscode -> active
         pass
 
-
-botDB = BotDB()
+botDB = Database()
 
 class DataBroker():
 
@@ -332,8 +332,8 @@ class DataBroker():
 
     async def onMessage(self, message):
         key = message.get("msgtype")
-        assert key in var(A)
-        await var(A)[key](self, message[key])
+        assert key in vars(message)
+        await vars(message)[key](self, message[key])
 
     #save fill data
     async def fill(self, message):
@@ -374,6 +374,7 @@ class DataBroker():
         pass
 
 
+    
     
     
 
