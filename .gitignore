@@ -2,3 +2,4 @@ config/*.json
 __pycache__/*
 *.swp
 scripts/__pycache__
+scripts/__pycache__/*
