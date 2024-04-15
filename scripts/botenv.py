@@ -61,8 +61,9 @@ def create():
     #pull if not exists
     for image_name in [ params_env[x]["image"] for x in params_env ]:
         try:
-            print(f"Image name #{image_name} exists.", flush = True)
+            print(f"Checking Image name #{image_name}", flush = True)
             client.images.get(image_name)
+            print(f"Image name #{image_name} exists.", flush = True)
         except docker.errors.ImageNotFound:
             print(f"Image name #{image_name} not exists.", flush = True)
             print(f"Pull docker name = #{image_name}", flush = True)
