@@ -78,21 +78,21 @@ def create():
         else: # docker init here
             print(f"Container #{c} not exists.", flush = True)
             if c == "ibkr":
-                if not j.get(c):
+                if not config.get(c):
                     account, password = None, None
                 else:
-                    account = j.get(c).get("account")
-                    password = j.get(c).get("password")
+                    account = config.get(c).get("account")
+                    password = config.get(c).get("password")
                 if not account:
                     while not (account:=input(f"#{c} account:")): pass;
                 if not password:
                     while not (password:=getpass(f"#{c} password:")): pass;
             else:
-                if not j.get(c):
+                if not config.get(c):
                     account, password = None, None
                 else:
-                    account = j.get(c).get("account")
-                    password = j.get(c).get("password")
+                    account = config.get(c).get("account")
+                    password = config.get(c).get("password")
                 if not account:
                     account = idgen(8)
                     #while not (account:=input(f"#{c} account:")): pass;
