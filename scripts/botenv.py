@@ -45,7 +45,7 @@ def create():
     pwdgen = lambda pwdlen: "".join(random.choices(string.ascii_letters+string.digits+string.punctuation, k=pwdlen))
     j = {}
     try:
-        f = open("../config/dockconf.json", "r")
+        f = open("./config/dockconf.json", "r")
         j = json.load(f)
         f.close()
     except FileNotFoundError:
